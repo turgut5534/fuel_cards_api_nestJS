@@ -62,8 +62,6 @@ export class AuthService {
       throw new ConflictException('Passwords do not match');
     }
 
-    console.log('Registering user with email:', email);
-
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await this.prisma.user.create({
@@ -109,6 +107,17 @@ export class AuthService {
     if (dto.newPassword !== dto.confirmPassword) {
       throw new ConflictException(
         'New password and confirm password do not match',
+      );
+    }
+
+    const samePassword = await bcrypt.compare(
+      dto.newPassword,
+      user.password,
+    );
+
+    if (samePassword) {
+      throw new ConflictException(
+        'New password must be different from the current password',
       );
     }
 

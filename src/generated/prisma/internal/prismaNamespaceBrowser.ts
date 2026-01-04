@@ -104,6 +104,7 @@ export const TransactionScalarFieldEnum = {
   transaction_date: 'transaction_date',
   new_balance: 'new_balance',
   fuel_price: 'fuel_price',
+  fuel_type: 'fuel_type',
   liters: 'liters',
   created_at: 'created_at',
   updated_at: 'updated_at'

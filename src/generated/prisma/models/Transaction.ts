@@ -48,6 +48,7 @@ export type TransactionMinAggregateOutputType = {
   transaction_date: Date | null
   new_balance: runtime.Decimal | null
   fuel_price: runtime.Decimal | null
+  fuel_type: $Enums.FuelType | null
   liters: runtime.Decimal | null
   created_at: Date | null
   updated_at: Date | null
@@ -61,6 +62,7 @@ export type TransactionMaxAggregateOutputType = {
   transaction_date: Date | null
   new_balance: runtime.Decimal | null
   fuel_price: runtime.Decimal | null
+  fuel_type: $Enums.FuelType | null
   liters: runtime.Decimal | null
   created_at: Date | null
   updated_at: Date | null
@@ -74,6 +76,7 @@ export type TransactionCountAggregateOutputType = {
   transaction_date: number
   new_balance: number
   fuel_price: number
+  fuel_type: number
   liters: number
   created_at: number
   updated_at: number
@@ -103,6 +106,7 @@ export type TransactionMinAggregateInputType = {
   transaction_date?: true
   new_balance?: true
   fuel_price?: true
+  fuel_type?: true
   liters?: true
   created_at?: true
   updated_at?: true
@@ -116,6 +120,7 @@ export type TransactionMaxAggregateInputType = {
   transaction_date?: true
   new_balance?: true
   fuel_price?: true
+  fuel_type?: true
   liters?: true
   created_at?: true
   updated_at?: true
@@ -129,6 +134,7 @@ export type TransactionCountAggregateInputType = {
   transaction_date?: true
   new_balance?: true
   fuel_price?: true
+  fuel_type?: true
   liters?: true
   created_at?: true
   updated_at?: true
@@ -229,6 +235,7 @@ export type TransactionGroupByOutputType = {
   transaction_date: Date
   new_balance: runtime.Decimal
   fuel_price: runtime.Decimal | null
+  fuel_type: $Enums.FuelType
   liters: runtime.Decimal | null
   created_at: Date
   updated_at: Date
@@ -265,6 +272,7 @@ export type TransactionWhereInput = {
   transaction_date?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   new_balance?: Prisma.DecimalFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: Prisma.DecimalNullableFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: Prisma.EnumFuelTypeFilter<"Transaction"> | $Enums.FuelType
   liters?: Prisma.DecimalNullableFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Transaction"> | Date | string
@@ -279,6 +287,7 @@ export type TransactionOrderByWithRelationInput = {
   transaction_date?: Prisma.SortOrder
   new_balance?: Prisma.SortOrder
   fuel_price?: Prisma.SortOrderInput | Prisma.SortOrder
+  fuel_type?: Prisma.SortOrder
   liters?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -296,6 +305,7 @@ export type TransactionWhereUniqueInput = Prisma.AtLeast<{
   transaction_date?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   new_balance?: Prisma.DecimalFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: Prisma.DecimalNullableFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: Prisma.EnumFuelTypeFilter<"Transaction"> | $Enums.FuelType
   liters?: Prisma.DecimalNullableFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Transaction"> | Date | string
@@ -310,6 +320,7 @@ export type TransactionOrderByWithAggregationInput = {
   transaction_date?: Prisma.SortOrder
   new_balance?: Prisma.SortOrder
   fuel_price?: Prisma.SortOrderInput | Prisma.SortOrder
+  fuel_type?: Prisma.SortOrder
   liters?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -331,6 +342,7 @@ export type TransactionScalarWhereWithAggregatesInput = {
   transaction_date?: Prisma.DateTimeWithAggregatesFilter<"Transaction"> | Date | string
   new_balance?: Prisma.DecimalWithAggregatesFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: Prisma.DecimalNullableWithAggregatesFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: Prisma.EnumFuelTypeWithAggregatesFilter<"Transaction"> | $Enums.FuelType
   liters?: Prisma.DecimalNullableWithAggregatesFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"Transaction"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"Transaction"> | Date | string
@@ -343,6 +355,7 @@ export type TransactionCreateInput = {
   transaction_date?: Date | string
   new_balance: runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: $Enums.FuelType
   liters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -357,6 +370,7 @@ export type TransactionUncheckedCreateInput = {
   transaction_date?: Date | string
   new_balance: runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: $Enums.FuelType
   liters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -369,6 +383,7 @@ export type TransactionUpdateInput = {
   transaction_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   new_balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: Prisma.EnumFuelTypeFieldUpdateOperationsInput | $Enums.FuelType
   liters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -383,6 +398,7 @@ export type TransactionUncheckedUpdateInput = {
   transaction_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   new_balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: Prisma.EnumFuelTypeFieldUpdateOperationsInput | $Enums.FuelType
   liters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -396,6 +412,7 @@ export type TransactionCreateManyInput = {
   transaction_date?: Date | string
   new_balance: runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: $Enums.FuelType
   liters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -408,6 +425,7 @@ export type TransactionUpdateManyMutationInput = {
   transaction_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   new_balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: Prisma.EnumFuelTypeFieldUpdateOperationsInput | $Enums.FuelType
   liters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -421,6 +439,7 @@ export type TransactionUncheckedUpdateManyInput = {
   transaction_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   new_balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: Prisma.EnumFuelTypeFieldUpdateOperationsInput | $Enums.FuelType
   liters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -444,6 +463,7 @@ export type TransactionCountOrderByAggregateInput = {
   transaction_date?: Prisma.SortOrder
   new_balance?: Prisma.SortOrder
   fuel_price?: Prisma.SortOrder
+  fuel_type?: Prisma.SortOrder
   liters?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -464,6 +484,7 @@ export type TransactionMaxOrderByAggregateInput = {
   transaction_date?: Prisma.SortOrder
   new_balance?: Prisma.SortOrder
   fuel_price?: Prisma.SortOrder
+  fuel_type?: Prisma.SortOrder
   liters?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -477,6 +498,7 @@ export type TransactionMinOrderByAggregateInput = {
   transaction_date?: Prisma.SortOrder
   new_balance?: Prisma.SortOrder
   fuel_price?: Prisma.SortOrder
+  fuel_type?: Prisma.SortOrder
   liters?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -543,6 +565,10 @@ export type NullableDecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
+export type EnumFuelTypeFieldUpdateOperationsInput = {
+  set?: $Enums.FuelType
+}
+
 export type TransactionCreateWithoutCardInput = {
   id?: string
   transaction_type: $Enums.TransactionType
@@ -550,6 +576,7 @@ export type TransactionCreateWithoutCardInput = {
   transaction_date?: Date | string
   new_balance: runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: $Enums.FuelType
   liters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -562,6 +589,7 @@ export type TransactionUncheckedCreateWithoutCardInput = {
   transaction_date?: Date | string
   new_balance: runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: $Enums.FuelType
   liters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -604,6 +632,7 @@ export type TransactionScalarWhereInput = {
   transaction_date?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   new_balance?: Prisma.DecimalFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: Prisma.DecimalNullableFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: Prisma.EnumFuelTypeFilter<"Transaction"> | $Enums.FuelType
   liters?: Prisma.DecimalNullableFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Transaction"> | Date | string
@@ -616,6 +645,7 @@ export type TransactionCreateManyCardInput = {
   transaction_date?: Date | string
   new_balance: runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: $Enums.FuelType
   liters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -628,6 +658,7 @@ export type TransactionUpdateWithoutCardInput = {
   transaction_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   new_balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: Prisma.EnumFuelTypeFieldUpdateOperationsInput | $Enums.FuelType
   liters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -640,6 +671,7 @@ export type TransactionUncheckedUpdateWithoutCardInput = {
   transaction_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   new_balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: Prisma.EnumFuelTypeFieldUpdateOperationsInput | $Enums.FuelType
   liters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -652,6 +684,7 @@ export type TransactionUncheckedUpdateManyWithoutCardInput = {
   transaction_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   new_balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fuel_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fuel_type?: Prisma.EnumFuelTypeFieldUpdateOperationsInput | $Enums.FuelType
   liters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -667,6 +700,7 @@ export type TransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   transaction_date?: boolean
   new_balance?: boolean
   fuel_price?: boolean
+  fuel_type?: boolean
   liters?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -681,6 +715,7 @@ export type TransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   transaction_date?: boolean
   new_balance?: boolean
   fuel_price?: boolean
+  fuel_type?: boolean
   liters?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -695,6 +730,7 @@ export type TransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   transaction_date?: boolean
   new_balance?: boolean
   fuel_price?: boolean
+  fuel_type?: boolean
   liters?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -709,12 +745,13 @@ export type TransactionSelectScalar = {
   transaction_date?: boolean
   new_balance?: boolean
   fuel_price?: boolean
+  fuel_type?: boolean
   liters?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type TransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "card_id" | "transaction_type" | "amount" | "transaction_date" | "new_balance" | "fuel_price" | "liters" | "created_at" | "updated_at", ExtArgs["result"]["transaction"]>
+export type TransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "card_id" | "transaction_type" | "amount" | "transaction_date" | "new_balance" | "fuel_price" | "fuel_type" | "liters" | "created_at" | "updated_at", ExtArgs["result"]["transaction"]>
 export type TransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   card?: boolean | Prisma.CardDefaultArgs<ExtArgs>
 }
@@ -738,6 +775,7 @@ export type $TransactionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     transaction_date: Date
     new_balance: runtime.Decimal
     fuel_price: runtime.Decimal | null
+    fuel_type: $Enums.FuelType
     liters: runtime.Decimal | null
     created_at: Date
     updated_at: Date
@@ -1172,6 +1210,7 @@ export interface TransactionFieldRefs {
   readonly transaction_date: Prisma.FieldRef<"Transaction", 'DateTime'>
   readonly new_balance: Prisma.FieldRef<"Transaction", 'Decimal'>
   readonly fuel_price: Prisma.FieldRef<"Transaction", 'Decimal'>
+  readonly fuel_type: Prisma.FieldRef<"Transaction", 'FuelType'>
   readonly liters: Prisma.FieldRef<"Transaction", 'Decimal'>
   readonly created_at: Prisma.FieldRef<"Transaction", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"Transaction", 'DateTime'>

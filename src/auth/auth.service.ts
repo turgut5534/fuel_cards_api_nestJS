@@ -17,6 +17,7 @@ export class AuthService {
 
   async login(email: string, password: string) {
 
+    console.log('Attempting login for email:', email);
     const user = await this.prisma.user.findUnique({
       where: { email: email.toLowerCase() },
     });
@@ -50,12 +51,16 @@ export class AuthService {
     };
   }
 
-  async register(email: string, password: string) {
+  async register(email: string, password: string, password_again: string) {
     const userExists = await this.prisma.user.findFirst({
       where: { email },
     });
 
     if (userExists) throw new ConflictException('User already exists');
+
+    if (password !== password_again) {
+      throw new ConflictException('Passwords do not match');
+    }
 
     console.log('Registering user with email:', email);
 

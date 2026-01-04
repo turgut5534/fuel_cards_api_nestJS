@@ -4,13 +4,29 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
+import { FuelType } from 'src/generated/prisma/enums';
 
 @Injectable()
 export class CardsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getCards() {
-    return this.prisma.card.findMany();
+  async getCards(userId: string) {
+    console.log('Fetching all cards');
+    try {
+      const cards = await this.prisma.card.findMany({
+        where: { user_id: userId },
+        orderBy: {
+          created_at: 'asc', // oldest (first created) first
+        },
+      });
+
+      console.log('Fetched cards:', cards);
+      return cards;
+    } catch (error) {
+      console.error('Error fetching cards:', error);
+      throw error;
+    }
+    // return this.prisma.card.findMany();
   }
 
   async createCard(dto: any, userId: string) {
@@ -74,11 +90,13 @@ export class CardsService {
     userId: string,
     amount: number,
     fuel_price: number,
+    fuel_type: string,
   ) {
     const card = await this.prisma.card.findUnique({
       where: { id: cardId, user_id: userId },
     });
 
+    console.log(fuel_type);
     if (!card) {
       throw new ConflictException('Card not found.');
     }
@@ -93,23 +111,24 @@ export class CardsService {
 
     const newBalance = card.balance.sub(amount);
 
-    const updatedCard = await this.prisma.card.update({
+    await this.prisma.card.update({
       where: { id: cardId },
       data: { balance: newBalance },
     });
 
-    await this.prisma.transaction.create({
+    const transaction = await this.prisma.transaction.create({
       data: {
         card_id: cardId,
         amount: amount,
         liters: liters,
         fuel_price: fuel_price,
         new_balance: newBalance,
+        fuel_type: FuelType[fuel_type as keyof typeof FuelType],
         transaction_type: 'spend',
       },
     });
 
-    return updatedCard;
+    return transaction;
   }
 
   async getCardTransactions(cardId: string, userId: string) {
@@ -143,10 +162,17 @@ export class CardsService {
       orderBy: { created_at: 'desc' },
     });
 
-    return { latestFuelPrice, transactions };
+    // console.log('Fetched transactions for card:', transactions);
+
+    return { latestFuelPrice, transactions, card };
   }
 
-  async getCardSummary(cardId: string, userId: string, startDate: string, endDate: string) {
+  async getCardSummary(
+    cardId: string,
+    userId: string,
+    startDate: string,
+    endDate: string,
+  ) {
     const card = await this.prisma.card.findUnique({
       where: { id: cardId, user_id: userId },
     });
@@ -172,14 +198,12 @@ export class CardsService {
 
     const totalLiters = result._sum.liters || 0;
 
-    const totalSpends = await this.prisma.transaction.aggregate({
-      where: { card_id: cardId, transaction_type: 'spend' },
-      _sum: { amount: true },
-    });
+    const totalSpends = result._sum.amount || 0;
 
+    console.log(totalSpends);
     return {
       cardInfo: card,
-      totalSpent: totalSpends._sum.amount || 0,
+      totalSpent: totalSpends,
       totalLiters: totalLiters,
     };
   }

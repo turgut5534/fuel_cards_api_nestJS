@@ -17,11 +17,7 @@ import { APP_GUARD } from '@nestjs/core';
     }])
   ],
   controllers: [AppController, AuthController, CardsController],
-  providers: [AppService,
-    {
-    provide: APP_GUARD,
-    useClass: ThrottlerGuard,
-  },
-  ],
+  providers: [AppService ],
 })
 export class AppModule {}
+

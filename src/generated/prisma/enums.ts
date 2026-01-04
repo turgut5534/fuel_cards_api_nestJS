@@ -15,3 +15,12 @@ export const TransactionType = {
 } as const
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
+
+
+export const FuelType = {
+  petrol: 'petrol',
+  diesel: 'diesel',
+  lpg: 'lpg'
+} as const
+
+export type FuelType = (typeof FuelType)[keyof typeof FuelType]

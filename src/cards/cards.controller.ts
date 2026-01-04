@@ -19,8 +19,10 @@ export class CardsController {
   constructor(private cardService: CardsService) {}
 
   @Get()
-  async getCards() {
-    return this.cardService.getCards();
+  async getCards(@Req() req) {
+
+    const userId = req.user.sub;
+    return this.cardService.getCards(userId);
   }
 
   @Post()
@@ -50,6 +52,7 @@ export class CardsController {
       userId,
       body.amount,
       body.fuel_price,
+      body.fuel_type,
     );
   }
 

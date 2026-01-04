@@ -52,6 +52,7 @@ model Transaction {
   transaction_date  DateTime @default(now())
   new_balance       Decimal  @db.Decimal(10, 2)
   fuel_price        Decimal? @db.Decimal(10, 2)
+  fuel_type         FuelType @default(lpg) 
   liters            Decimal? @db.Decimal(10, 3)
 
   created_at DateTime @default(now())
@@ -66,6 +67,12 @@ model Transaction {
 enum TransactionType {
   spend
   topup
+}
+
+enum FuelType{
+  petrol
+  diesel
+  lpg
 }
 
 model RefreshToken {

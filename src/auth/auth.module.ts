@@ -10,7 +10,7 @@ dotenv.config(); // Load .env file
   imports: [
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'supersecret',
-      signOptions: { expiresIn: '1h' }, 
+      signOptions: { expiresIn: '12h' }, 
     }),
   ],
   providers: [AuthService, PrismaService],

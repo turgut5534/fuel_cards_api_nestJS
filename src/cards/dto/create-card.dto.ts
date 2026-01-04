@@ -9,8 +9,4 @@ export class CreateCardDto {
   @Min(0)
   @IsNotEmpty()
   balance: number;
-
-  @IsUUID()
-  @IsNotEmpty()
-  user_id: string;
 }

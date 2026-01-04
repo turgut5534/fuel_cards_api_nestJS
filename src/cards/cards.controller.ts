@@ -27,6 +27,7 @@ export class CardsController {
 
   @Post()
   async createCard(@Body() dto: CreateCardDto, @Req() req) {
+    
     const userId = req.user.sub;
 
     return this.cardService.createCard(dto, userId);

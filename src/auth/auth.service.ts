@@ -11,12 +11,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService,
-     private readonly jwt: JwtService,
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwt: JwtService,
   ) {}
 
   async login(email: string, password: string) {
-
     console.log('Attempting login for email:', email);
     const user = await this.prisma.user.findUnique({
       where: { email: email.toLowerCase() },
@@ -46,7 +46,7 @@ export class AuthService {
     return {
       accessToken: await this.jwt.signAsync({
         sub: user.id,
-        email: user.email
+        email: user.email,
       }),
     };
   }
@@ -79,8 +79,50 @@ export class AuthService {
       select: {
         id: true,
         email: true,
-        created_at: true,
+        _count: {
+          select: {
+            cards: true,
+          },
+        },
       },
-    }); 
+    });
+  }
+
+  async changePassword(userId: string, dto: any) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    const validPassword = await bcrypt.compare(
+      dto.currentPassword,
+      user.password,
+    );
+    
+    if (!validPassword) {
+      throw new UnauthorizedException('Current password is incorrect');
+    }
+
+    if (dto.newPassword !== dto.confirmPassword) {
+      throw new ConflictException(
+        'New password and confirm password do not match',
+      );
+    }
+
+    const hashedNewPassword = await bcrypt.hash(dto.newPassword, 10);
+
+    try {
+      await this.prisma.user.update({
+        where: { id: userId },
+        data: { password: hashedNewPassword },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to change password');
+    }
+
+    return user;
   }
 }

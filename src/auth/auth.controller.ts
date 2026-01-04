@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from 'src/middlewares/jwt-guard';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { RegisterDto } from './dto/register.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -22,11 +23,20 @@ export class AuthController {
     return this.authService.register(dto.email, dto.password, dto.repeatPassword);
   }
 
-  @Get('me')
+  @Get('profile')
   @UseGuards(JwtAuthGuard)
   async getStatus(@Req() req) {
 
     const user = req.user.sub
     return this.authService.getStatus(user);
   }
+
+  @Post('changePassword')
+  @UseGuards(JwtAuthGuard)
+  async changePassword(@Req() req, @Body() dto: UpdatePasswordDto) {
+    
+    const userId = req.user.sub;
+
+    return this.authService.changePassword(userId, dto); 
+  } 
 }

@@ -1,98 +1,118 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# ⛽ FuelCard REST API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A specialized backend service for managing digital fuel cards. This API allows users to manage their fuel budget, track various fuel types, and monitor spending habits through detailed transaction histories.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🚀 Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+* **User Management**: Secure registration and JWT-based authentication.
+* **Card Management**: Add, view, and delete multiple fuel cards.
+* **Wallet Actions**: 
+    * **Top-up**: Manually add funds to a specific card.
+    * **Spend**: Log fuel purchases with dynamic fuel types and pricing.
+* **Transaction History**: 
+    * Filter by type: `topup` or `spend`.
+    * Filter by date range.
+    * Detailed logs including fuel type and price per unit.
 
-## Project setup
+---
 
-```bash
-$ pnpm install
+## 🛠 Tech Stack
+
+* **Language**: [Insert Language, e.g., Node.js]
+* **Framework**: [Insert Framework, e.g., Express]
+* **Database**: [Insert Database, e.g., PostgreSQL]
+* **Auth**: JWT (JSON Web Tokens)
+
+---
+
+## 🛣 API Endpoints
+
+### 1. Authentication
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Create a new user account |
+| `POST` | `/api/auth/login` | Login and receive a JWT token |
+
+### 2. Fuel Cards
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/cards` | List all cards for the user |
+| `POST` | `/api/cards` | Register a new fuel card |
+| `DELETE` | `/api/cards/:id` | Remove a specific card |
+
+### 3. Transactions
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/cards/:id/topup` | Manually add balance to a card |
+| `POST` | `/api/cards/:id/spend` | Record a fuel purchase |
+| `GET` | `/api/transactions` | View all history (Supports filtering) |
+
+---
+
+## 🔍 Filtering Transactions
+
+You can filter the transaction history using query parameters on the `GET /api/transactions` endpoint:
+
+* **By Type**: `?type=topup` or `?type=spend`
+* **By Date**: `?startDate=2024-01-01&endDate=2024-01-31`
+
+**Example Request:** `GET /api/transactions?type=spend&startDate=2024-03-01`
+
+---
+
+## 📝 Usage Examples
+
+### Spend Money (Record Purchase)
+**Request:** `POST /api/cards/card_123/spend`
+```json
+{
+  "fuel_type": "95 Octane",
+  "fuel_price": 1.65,
+  "total_spent": 50.00
+}
+```
+Response (201 Created):
+```json
+{
+  "transaction_id": "tx_8892",
+  "card_id": "card_123",
+  "status": "success",
+  "remaining_balance": 125.50,
+  "timestamp": "2024-03-15T14:20:00Z"
+}
+```
+---
+
+## ⚙️ Installation & Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/turgut5534/fuel_cards_api_nestJS.git
+   cd fuel-card-api
+   ```
+2. Install dependencies
+   ```
+   pnpm install
+   ```
+3- Environment Variables Create a .env file in the root directory and configure your credentials:
+```
+PORT=3000
+DATABASE_URL=your_connection_string
+JWT_SECRET=your_secret_key
+```
+4- Run the application
+```
+npm run start:dev
 ```
 
-## Compile and run the project
+🔒 Security
 
-```bash
-# development
-$ pnpm run start
+authentication: All private routes require a Bearer <token> passed in the Authorization header.
 
-# watch mode
-$ pnpm run start:dev
+Authorisation: Strict ownership checks are in place. Users can only access, delete, or spend from cards linked to their specific account.
 
-# production mode
-$ pnpm run start:prod
-```
+Data Integrity: Fuel prices and types are validated server-side during the "spend" transaction process.
 
-## Run tests
 
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
